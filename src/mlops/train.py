@@ -1,10 +1,60 @@
-from mlops.model import Model
-from mlops.data import MyDataset
+from model import Model
+from data import MyDataset
+from tqdm import tqdm
+from pathlib import Path
+import torch
+import matplotlib.pyplot as plt
 
-def train():
+def train(batch_size: int, epochs: int, lr: float, device: torch.device):
     dataset = MyDataset("data/raw")
+    dataset.preprocess(Path("data/processed"))
+    train_dataloader = torch.utils.data.DataLoader(dataset.train_set, batch_size)
+
     model = Model()
-    # add rest of your training code here
+    model.to(device)
+
+    criterion = torch.nn.CrossEntropyLoss()
+    optimizer = torch.optim.Adam(model.parameters(), lr=lr)
+
+    statistics = {
+        "loss" : [], 
+        "accuracy" : []
+    }
+
+    for e in tqdm(range(epochs), desc="Training"):
+        model.train()
+        for image, target in train_dataloader:
+            image, target = image.to(device), target.to(device)
+
+            optimizer.zero_grad()
+
+            prediction = model(image)
+            loss = criterion(prediction, target)
+            accuracy = (prediction.argmax(dim=1) == target).float().mean()
+            loss.backward()
+
+            optimizer.step()
+
+        statistics["loss"].append(loss.item())
+        statistics["accuracy"].append(accuracy.item())
+        print(f"\nEpoch: {e} | Loss: {loss.item()} | Accuracy: {accuracy.item()}")
+
+    print("Training complete")
+    torch.save(model.state_dict(), "models/model.pth")
+
+    fig, axs = plt.subplots(1, 2, figsize=(15, 5))
+    axs[0].plot(statistics["loss"])
+    axs[0].set_title("Train loss")
+    axs[1].plot(statistics["accuracy"])
+    axs[1].set_title("Train accuracy")
+    fig.savefig("reports/training_statistics.png")
+
 
 if __name__ == "__main__":
-    train()
+
+    BATCH_SIZE = 64
+    EPOCHS = 20
+    LR = 0.01
+    DEVICE = torch.device("cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu")
+
+    train(BATCH_SIZE, EPOCHS, LR, DEVICE)

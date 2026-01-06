@@ -9,8 +9,8 @@ class MyDataset(Dataset):
 
     def __init__(self, data_path: Path) -> None:
         self.data_path = data_path
-        self.images = None
-        self.targets = None
+        self.train_set = None
+        self.test_set = None
 
     def __len__(self) -> int:
         """Return the length of the dataset."""
@@ -39,6 +39,9 @@ class MyDataset(Dataset):
         torch.save(train_target, f"{output_folder}/train_target.pt")
         torch.save(test_images, f"{output_folder}/test_images.pt")
         torch.save(test_target, f"{output_folder}/test_target.pt")
+
+        self.train_set = torch.utils.data.TensorDataset(train_images, train_target)
+        self.test_set = torch.utils.data.TensorDataset(test_images, test_target)
 
         print("Data Preprocessed!")
 

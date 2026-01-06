@@ -1,7 +1,9 @@
+from pathlib import Path
+
 import torch
 from model import Model
+
 from data import MyDataset
-from pathlib import Path
 
 
 def eval(

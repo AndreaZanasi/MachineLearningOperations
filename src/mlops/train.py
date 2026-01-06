@@ -1,10 +1,12 @@
-from model import Model
-from data import MyDataset
-from tqdm import tqdm
 from pathlib import Path
-from evaluate import eval
-import torch
+
 import matplotlib.pyplot as plt
+import torch
+from evaluate import eval
+from model import Model
+from tqdm import tqdm
+
+from data import MyDataset
 
 
 def train(batch_size: int, epochs: int, lr: float, device: torch.device):

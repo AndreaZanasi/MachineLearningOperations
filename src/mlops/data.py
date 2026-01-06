@@ -1,7 +1,7 @@
 from pathlib import Path
 
-import typer
 import torch
+import typer
 from torch.utils.data import Dataset
 
 

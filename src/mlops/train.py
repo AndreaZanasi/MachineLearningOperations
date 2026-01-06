@@ -6,6 +6,7 @@ from evaluate import eval
 import torch
 import matplotlib.pyplot as plt
 
+
 def train(batch_size: int, epochs: int, lr: float, device: torch.device):
     dataset = MyDataset("data/raw")
     dataset.preprocess(Path("data/processed"))
@@ -17,10 +18,7 @@ def train(batch_size: int, epochs: int, lr: float, device: torch.device):
     criterion = torch.nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
 
-    statistics = {
-        "loss" : [], 
-        "accuracy" : []
-    }
+    statistics = {"loss": [], "accuracy": []}
 
     for e in tqdm(range(epochs), desc="Training"):
         model.train()
@@ -54,10 +52,15 @@ def train(batch_size: int, epochs: int, lr: float, device: torch.device):
 
 
 if __name__ == "__main__":
-
     BATCH_SIZE = 64
     EPOCHS = 30
     LR = 0.001
-    DEVICE = torch.device("cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu")
+    DEVICE = torch.device(
+        "cuda"
+        if torch.cuda.is_available()
+        else "mps"
+        if torch.backends.mps.is_available()
+        else "cpu"
+    )
 
     train(BATCH_SIZE, EPOCHS, LR, DEVICE)

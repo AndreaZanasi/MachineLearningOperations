@@ -2,6 +2,7 @@ import torch
 from torch import nn
 import torch.nn.functional as F
 
+
 class Model(nn.Module):
     """My awesome model."""
 
@@ -35,7 +36,7 @@ if __name__ == "__main__":
 
     print(f"Model architecture: {model}")
     print(f"Number of parameters: {sum(p.numel() for p in model.parameters())}")
-    
+
     dummy_input = torch.randn(1, 1, 28, 28)
     output = model(dummy_input)
     print(f"Output shape: {output.shape}")

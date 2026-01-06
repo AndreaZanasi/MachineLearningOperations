@@ -3,8 +3,13 @@ from model import Model
 from data import MyDataset
 from pathlib import Path
 
-def eval(model_checkpoint: str, device : torch.device, batch_size : int, dataset : torch.utils.data.TensorDataset):
-    
+
+def eval(
+    model_checkpoint: str,
+    device: torch.device,
+    batch_size: int,
+    dataset: torch.utils.data.TensorDataset,
+):
     model = Model().to(device)
     model.load_state_dict(torch.load(model_checkpoint))
     test_dataloader = torch.utils.data.DataLoader(dataset.test_set, batch_size)
@@ -23,8 +28,14 @@ def eval(model_checkpoint: str, device : torch.device, batch_size : int, dataset
 
 
 if __name__ == "__main__":
-    DEVICE = torch.device("cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu")
+    DEVICE = torch.device(
+        "cuda"
+        if torch.cuda.is_available()
+        else "mps"
+        if torch.backends.mps.is_available()
+        else "cpu"
+    )
     dataset = MyDataset("data/raw")
     dataset.preprocess(Path("data/processed"))
-    
+
     eval("models/model.pth", DEVICE, 64, dataset)

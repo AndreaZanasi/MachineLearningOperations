@@ -2,6 +2,7 @@ from model import Model
 from data import MyDataset
 from tqdm import tqdm
 from pathlib import Path
+from evaluate import eval
 import torch
 import matplotlib.pyplot as plt
 
@@ -39,8 +40,10 @@ def train(batch_size: int, epochs: int, lr: float, device: torch.device):
         statistics["accuracy"].append(accuracy.item())
         print(f"\nEpoch: {e} | Loss: {loss.item()} | Accuracy: {accuracy.item()}")
 
+        torch.save(model.state_dict(), "models/model.pth")
+        eval("models/model.pth", device, batch_size, dataset)
+
     print("Training complete")
-    torch.save(model.state_dict(), "models/model.pth")
 
     fig, axs = plt.subplots(1, 2, figsize=(15, 5))
     axs[0].plot(statistics["loss"])
@@ -53,8 +56,8 @@ def train(batch_size: int, epochs: int, lr: float, device: torch.device):
 if __name__ == "__main__":
 
     BATCH_SIZE = 64
-    EPOCHS = 20
-    LR = 0.01
+    EPOCHS = 30
+    LR = 0.001
     DEVICE = torch.device("cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu")
 
     train(BATCH_SIZE, EPOCHS, LR, DEVICE)

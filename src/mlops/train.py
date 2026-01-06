@@ -47,7 +47,7 @@ def train(batch_size: int, epochs: int, lr: float, device: torch.device):
     axs[0].set_title("Train loss")
     axs[1].plot(statistics["accuracy"])
     axs[1].set_title("Train accuracy")
-    fig.savefig("reports/training_statistics.png")
+    fig.savefig("reports/figures/training_statistics.png")
 
 
 if __name__ == "__main__":

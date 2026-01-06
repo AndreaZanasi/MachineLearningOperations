@@ -2,7 +2,7 @@ from pathlib import Path
 
 import typer
 import torch
-from torch.utils.data import TensorDataset, Dataset
+from torch.utils.data import Dataset
 
 class MyDataset(Dataset):
     """My custom dataset."""

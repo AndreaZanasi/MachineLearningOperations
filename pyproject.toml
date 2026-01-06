@@ -12,3 +12,8 @@ dependencies = [
     "matplotlib>=3.8.0",
     "torchvision>=0.16.1",
 ]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.14.10",
+]

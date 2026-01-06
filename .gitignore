@@ -13,3 +13,4 @@ wheels/
 data/
 reports/*
 models/*
+.ruff_cache/

@@ -1,0 +1,23 @@
+hyperparameters:
+  batch_size: 64
+  epochs: 30
+
+optimizer:
+  _target_: torch.optim.Adam
+  lr: 1e-3
+  weight_decay: 0
+  eps: 1e-8
+  betas: [0.9, 0.999]
+
+criterion:
+  _target_: torch.nn.CrossEntropyLoss
+
+hydra:
+  job:
+    chdir: false
+
+paths:
+  data_dir: data/raw
+  output_dir: data/processed
+  figures_dir: reports/figures
+  model_name: models/model.pth

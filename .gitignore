@@ -14,4 +14,4 @@ data/
 reports/*
 models/*
 .ruff_cache/
-/data
+outputs/

@@ -21,9 +21,9 @@ class MyDataset(Dataset):
         """Return a given sample from the dataset."""
         return self.images[index], self.targets[index]
 
-    def preprocess(self, output_folder: Path) -> None:
+    def preprocess(self, output_folder: str) -> None:
         """Preprocess the raw data and save it to the output folder."""
-        output_folder.mkdir(parents=True, exist_ok=True)
+        Path(output_folder).mkdir(parents=True, exist_ok=True)
 
         train_images, train_target = [], []
         for i in range(6):
@@ -49,7 +49,7 @@ class MyDataset(Dataset):
         print("Data Preprocessed!")
 
 
-def preprocess(data_path: Path, output_folder: Path) -> None:
+def preprocess(data_path: str, output_folder: str) -> None:
     print("Preprocessing data...")
     dataset = MyDataset(data_path)
     dataset.preprocess(output_folder)

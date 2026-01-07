@@ -1,0 +1,12 @@
+hyperparameters:
+  features: [1, 32, 64, 128, 10]
+  batch_norms: [32, 64, 128]
+  dropout: 0.5
+  stride: 1
+  kernel_size: 3
+
+max_pooling:
+  pool_size: 2
+  stride: 2
+
+

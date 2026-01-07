@@ -9,6 +9,7 @@ COPY pyproject.toml pyproject.toml
 COPY src/ src/
 COPY data/ data/
 COPY uv.lock uv.lock
+COPY models/ models/
 
 WORKDIR /
 

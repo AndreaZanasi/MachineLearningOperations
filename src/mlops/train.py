@@ -25,14 +25,14 @@ DEVICE = torch.device(
     )
 
 def train(
-        batch_size: int, 
-        epochs: int, 
+        batch_size: int,
+        epochs: int,
         data_dir: str,
         output_dir: str,
         figures_dir: str,
         model_name: str,
-        model, 
-        optimizer, 
+        model,
+        optimizer,
         criterion
 ):
     dataset = MyDataset(data_dir)

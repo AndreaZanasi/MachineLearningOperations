@@ -23,4 +23,3 @@ def test_my_dataset():
 
     assert (torch.unique(dataset.train_set.tensors[1]) == torch.arange(0,10)).all()
     assert (torch.unique(dataset.test_set.tensors[1]) == torch.arange(0,10)).all()
-

@@ -8,5 +8,3 @@ hyperparameters:
 max_pooling:
   pool_size: 2
   stride: 2
-
-

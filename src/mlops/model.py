@@ -1,7 +1,7 @@
 import torch
 import torch.nn.functional as F
 from torch import nn
-
+import hydra
 
 class Model(nn.Module):
     """My awesome model."""
@@ -40,9 +40,17 @@ class Model(nn.Module):
 
         return self.fc1(x)
 
-
-def main():
-    model = Model()
+@hydra.main(config_path="config", config_name="cfg_model", version_base="1.1")
+def main(model_cfg):
+    model = Model(
+        model_cfg.hyperparameters.features,
+        model_cfg.hyperparameters.batch_norms,
+        model_cfg.hyperparameters.dropout,
+        model_cfg.hyperparameters.stride,
+        model_cfg.hyperparameters.kernel_size,
+        model_cfg.max_pooling.pool_size,
+        model_cfg.max_pooling.stride,
+    )
 
     print(f"Model architecture: {model}")
     print(f"Number of parameters: {sum(p.numel() for p in model.parameters())}")

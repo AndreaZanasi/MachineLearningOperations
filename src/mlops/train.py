@@ -1,14 +1,14 @@
+import logging
+import os
 from pathlib import Path
 
-import matplotlib.pyplot as plt
-import torch.optim as optim
-import torch.nn as nn
-import torch
 import hydra
-from hydra import compose, initialize
-import os
-import logging
+import matplotlib.pyplot as plt
+import torch
+import torch.nn as nn
+import torch.optim as optim
 from evaluate import eval
+from hydra import compose, initialize
 from model import Model
 from tqdm import tqdm
 
@@ -17,23 +17,24 @@ from data import MyDataset
 log = logging.getLogger(__name__)
 
 DEVICE = torch.device(
-        "cuda"
-        if torch.cuda.is_available()
-        else "mps"
-        if torch.backends.mps.is_available()
-        else "cpu"
-    )
+    "cuda"
+    if torch.cuda.is_available()
+    else "mps"
+    if torch.backends.mps.is_available()
+    else "cpu"
+)
+
 
 def train(
-        batch_size: int,
-        epochs: int,
-        data_dir: str,
-        output_dir: str,
-        figures_dir: str,
-        model_name: str,
-        model,
-        optimizer,
-        criterion
+    batch_size: int,
+    epochs: int,
+    data_dir: str,
+    output_dir: str,
+    figures_dir: str,
+    model_name: str,
+    model,
+    optimizer,
+    criterion,
 ):
     dataset = MyDataset(data_dir)
     dataset.preprocess(output_dir)
@@ -71,8 +72,8 @@ def train(
     axs[1].set_title("Train accuracy")
     fig.savefig(f"{figures_dir}/training_statistics.png")
 
-def main():
 
+def main():
     with initialize(config_path="config", version_base="1.1"):
         train_cfg = compose(config_name="cfg_train.yaml")
         model_cfg = compose(config_name="cfg_model.yaml")
@@ -97,8 +98,9 @@ def main():
         train_cfg.paths.model_name,
         model,
         hydra.utils.instantiate(train_cfg.optimizer, params=model.parameters()),
-        hydra.utils.instantiate(train_cfg.criterion)
+        hydra.utils.instantiate(train_cfg.criterion),
     )
+
 
 if __name__ == "__main__":
     main()

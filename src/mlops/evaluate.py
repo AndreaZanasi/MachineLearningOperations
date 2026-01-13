@@ -1,8 +1,8 @@
 from pathlib import Path
 
-import torch
 import hydra
-from hydra import initialize, compose
+import torch
+from hydra import compose, initialize
 from model import Model
 
 from data import MyDataset
@@ -15,11 +15,12 @@ DEVICE = torch.device(
     else "cpu"
 )
 
+
 def eval(
     model_checkpoint: str,
     batch_size: int,
     dataset: torch.utils.data.TensorDataset,
-    model: Model
+    model: Model,
 ):
     model.load_state_dict(torch.load(model_checkpoint))
     test_dataloader = torch.utils.data.DataLoader(dataset.test_set, batch_size)
@@ -35,6 +36,7 @@ def eval(
             total += target.size(0)
 
     print(f"Test accuracy: {correct / total}")
+
 
 def main():
     with initialize(config_path="config", version_base="1.1"):
@@ -55,7 +57,10 @@ def main():
     )
     model.to(DEVICE)
 
-    eval(train_cfg.paths.model_name, train_cfg.hyperparameters.batch_size, dataset, model)
+    eval(
+        train_cfg.paths.model_name, train_cfg.hyperparameters.batch_size, dataset, model
+    )
+
 
 if __name__ == "__main__":
     main()

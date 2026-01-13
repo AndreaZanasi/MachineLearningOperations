@@ -1,7 +1,9 @@
-from src.mlops.model import Model
 import torch
-from hydra import initialize, compose
+from hydra import compose, initialize
+
+from src.mlops.model import Model
 from tests import _PROJECT_ROOT
+
 
 def test_model():
     """Test model class"""

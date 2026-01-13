@@ -1,10 +1,11 @@
+import os.path
+
+import pytest
+import torch
 from torch.utils.data import Dataset
 
 from src.mlops.data import MyDataset
 
-import pytest
-import torch
-import os.path
 
 @pytest.mark.skipif(not os.path.exists("data/raw"), reason="Data files not found")
 def test_my_dataset():
@@ -21,5 +22,5 @@ def test_my_dataset():
             assert image.shape == (1, 28, 28)
             assert label in range(10)
 
-    assert (torch.unique(dataset.train_set.tensors[1]) == torch.arange(0,10)).all()
-    assert (torch.unique(dataset.test_set.tensors[1]) == torch.arange(0,10)).all()
+    assert (torch.unique(dataset.train_set.tensors[1]) == torch.arange(0, 10)).all()
+    assert (torch.unique(dataset.test_set.tensors[1]) == torch.arange(0, 10)).all()

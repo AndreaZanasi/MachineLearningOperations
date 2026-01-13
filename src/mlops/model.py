@@ -1,21 +1,22 @@
+import hydra
 import torch
 import torch.nn.functional as F
 from torch import nn
-import hydra
+
 
 class Model(nn.Module):
     """My awesome model."""
 
     def __init__(
-            self,
-            features,
-            batch_norms,
-            dropout,
-            stride,
-            kernel_size,
-            max_pool_size,
-            max_pool_stride
-        ) -> None:
+        self,
+        features,
+        batch_norms,
+        dropout,
+        stride,
+        kernel_size,
+        max_pool_size,
+        max_pool_stride,
+    ) -> None:
         super().__init__()
         self.conv1 = nn.Conv2d(features[0], features[1], kernel_size, stride)
         self.bn1 = nn.BatchNorm2d(batch_norms[0])
@@ -40,6 +41,7 @@ class Model(nn.Module):
 
         return self.fc1(x)
 
+
 @hydra.main(config_path="config", config_name="cfg_model", version_base="1.1")
 def main(model_cfg):
     model = Model(
@@ -58,6 +60,7 @@ def main(model_cfg):
     dummy_input = torch.randn(1, 1, 28, 28)
     output = model(dummy_input)
     print(f"Output shape: {output.shape}")
+
 
 if __name__ == "__main__":
     main()
